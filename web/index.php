@@ -39,7 +39,7 @@ if (null !== $userID) {
         . "If you have a priority 1 issue please stay on the line. "
         );
 
-    $response2 = sprintf("Connecting you, please wait")
+    $response2 = sprintf("Connecting you, please wait");
 
     $twilioResponse->say($response, $attributes);
     $twilioResponse->pause(". . . . . . . . . . . . . . . . . . . . . . . . ."); //Pause for 5 seconds
