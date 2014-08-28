@@ -9,6 +9,9 @@
  *
  * (c) 2014 Vend Ltd.
  *
+ *  Forked and modified by Brandon Foth for use at MediaMonks B.V.
+ *  (28-8-2014)
+ *
  */
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -31,14 +34,16 @@ if (null !== $userID) {
     );
 
     $twilioResponse = new Services_Twilio_Twiml();
-    $response = sprintf("The current on-call engineer is %s. "
-        . "The time in their timezone is %s. "
-        . "Please hold while we connect you.",
-        $user['first_name'],
-        $user['local_time']->format('g:ia')
+    $response = sprintf("Welcome to MediaMonks Hosting. "
+        . "This number is only for priority 1 issues. "
+        . "If you have a priority 1 issue please stay on the line. "
         );
 
+    $response2 = sprintf("Connecting you, please wait")
+
     $twilioResponse->say($response, $attributes);
+    $twilioResponse->pause(". . . . . . . . . . . . . . . . . . . . . . . . ."); //Pause for 5 seconds
+    $twilioResponse->say($response2, $attributes);
     $twilioResponse->dial( $user['phone_number'], $attributes);
 
     // send response
