@@ -33,22 +33,24 @@ if (null !== $userID) {
         'language' => 'en-GB'
     );
 
-    $pauseAtt = array(
+    $pauseLength = array(
         'length' => 5
     );
+
+    $callerID = "+14242066657";
 
     $twilioResponse = new Services_Twilio_Twiml();
     $response = sprintf("Welcome to MediaMonks Hosting. "
         . "This number is only for priority 1 issues. "
         . "If you have a priority 1 issue please stay on the line. "
-        );
+    );
 
     $response2 = sprintf("Connecting you, please wait");
 
     $twilioResponse->say($response, $attributes);
-    $twilioResponse->pause("", $pauseAtt); //Pause for 5 seconds
+    $twilioResponse->pause("", $pauseLength); //Pause for 5 seconds
     $twilioResponse->say($response2, $attributes);
-    $twilioResponse->dial( $user['phone_number']);
+    $twilioResponse->dial($user['phone_number'], $callerID);
 
     // send response
     if (!headers_sent()) {
