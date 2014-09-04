@@ -52,7 +52,7 @@ if (null !== $userID) {
     $twilioResponse->say($response, $attributes);
     $twilioResponse->pause("", $pauseLength); //Pause for 5 seconds
     $twilioResponse->say($response2, $attributes);
-    $twilioResponse->dial($user['phone_number'], $callerID);
+    $twilioResponse->dial($user['phone_number'], $dialAttribute);
 
     // send response
     if (!headers_sent()) {
