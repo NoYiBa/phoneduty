@@ -37,7 +37,9 @@ if (null !== $userID) {
         'length' => 5
     );
 
-    $callerID = "+14242066657";
+    $callerID = array(
+        'number' => +14242066657
+    );
 
     $twilioResponse = new Services_Twilio_Twiml();
     $response = sprintf("Welcome to MediaMonks Hosting. "
