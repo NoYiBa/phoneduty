@@ -32,8 +32,6 @@ if (null !== $userID) {
     $callerNumber = ($_REQUEST['From']);
 
     //sends an email to pagerduty which will create an incident with the client's phone number within
-    header('Content-type: text/xml');
-    echo '<?xml version="1.0" encoding="UTF-8"?>';
     $to = "hosting@mediamonks.pagerduty.com";
     $subject = "New client call from {$_REQUEST['From']} at {$_REQUEST['To']}";
     $message = "A call has been placed to the Hosting Support Line from the number {$_REQUEST['From']}.";
