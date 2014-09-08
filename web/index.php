@@ -31,13 +31,27 @@ if (null !== $userID) {
     //get incoming caller's number
     $callerNumber = ($_REQUEST['From']);
 
-    //sends an email to pagerduty which will create an incident with the client's phone number within
-    $to = "hosting@mediamonks.pagerduty.com";
-    $subject = "New client call from {$_REQUEST['From']} at {$_REQUEST['To']}";
-    $message = "A call has been placed to the Hosting Support Line from the number {$_REQUEST['From']}.";
-    $headers = "From: mediamonks@twilio.com";
 
-    mail($to, $subject, $message, $headers);
+    $data = array(
+        "service_key" => "e854881c889048248cd5b4b4c2c05edb",
+        "event_type" => "trigger",
+        "description" => "Support Line Call from {$_REQUEST['From']}",
+        "client" => "Twilio",
+        "details"=> "Number: {$_REQUEST['From']}"
+    );
+    $str_data = json_encode($data);
+
+    $ch = curl_init('https://events.pagerduty.com/generic/2010-04-15/create_event.json');
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data_string))
+    );
+
+    $result = curl_exec($ch);
+
 
     $attributes = array(
         'voice' => 'alice',
