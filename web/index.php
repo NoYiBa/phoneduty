@@ -39,7 +39,7 @@ if (null !== $userID) {
         "client" => "Twilio",
         "details"=> "Number: {$_REQUEST['From']}"
     );
-    $str_data = json_encode($data);
+    $data_string = json_encode($data);
 
     $ch = curl_init('https://events.pagerduty.com/generic/2010-04-15/create_event.json');
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
