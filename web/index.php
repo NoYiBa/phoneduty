@@ -29,7 +29,8 @@ if (null !== $userID) {
     $user = $pagerduty->getUserDetails($userID);
 
     //get incoming caller's number
-    if ($callerNumber = ($_REQUEST['From'])) {
+    $callerNumber = ($_REQUEST['From']);
+    if (isset($callerNumber)) {
 
         $data = array(
             "service_key" => "e854881c889048248cd5b4b4c2c05edb",
