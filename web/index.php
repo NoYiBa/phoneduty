@@ -29,29 +29,28 @@ if (null !== $userID) {
     $user = $pagerduty->getUserDetails($userID);
 
     //get incoming caller's number
-    $callerNumber = ($_REQUEST['From']);
+    if ($callerNumber = ($_REQUEST['From'])) {
 
+        $data = array(
+            "service_key" => "e854881c889048248cd5b4b4c2c05edb",
+            "event_type" => "trigger",
+            "description" => "Support Line Call from {$_REQUEST['From']}",
+            "client" => "Twilio",
+            "details"=> "Number: {$_REQUEST['From']}"
+        );
+        $data_string = json_encode($data);
 
-    $data = array(
-        "service_key" => "e854881c889048248cd5b4b4c2c05edb",
-        "event_type" => "trigger",
-        "description" => "Support Line Call from {$_REQUEST['From']}",
-        "client" => "Twilio",
-        "details"=> "Number: {$_REQUEST['From']}"
-    );
-    $data_string = json_encode($data);
-
-    $ch = curl_init('https://events.pagerduty.com/generic/2010-04-15/create_event.json');
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Content-Length: ' . strlen($data_string))
+        $ch = curl_init('https://events.pagerduty.com/generic/2010-04-15/create_event.json');
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data_string))
     );
 
     $result = curl_exec($ch);
-
+    }
 
     $attributes = array(
         'voice' => 'alice',
