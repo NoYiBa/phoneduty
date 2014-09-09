@@ -10,7 +10,7 @@
  * (c) 2014 Vend Ltd.
  *
  *  Forked and modified by Brandon Foth for use at MediaMonks B.V.
- *  (28-8-2014)
+ *  Initial fork created 28-8-2014
  *
  */
 
@@ -30,6 +30,8 @@ if (null !== $userID) {
 
     //get incoming caller's number
     $callerNumber = ($_REQUEST['From']);
+
+    //Creates a PagerDuty incident when callerNumber is set, which is as soon as a call is made
     if (isset($callerNumber)) {
 
         $data = array(
@@ -48,11 +50,12 @@ if (null !== $userID) {
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Content-Type: application/json',
                 'Content-Length: ' . strlen($data_string))
-    );
+        );
 
-    $result = curl_exec($ch);
-    }
+        $result = curl_exec($ch);
+    }//end of PagerDuty incident creation
 
+    //Call attributes allocated
     $attributes = array(
         'voice' => 'alice',
         'language' => 'en-GB'
@@ -71,11 +74,10 @@ if (null !== $userID) {
         . "This number is only for priority 1 issues. "
         . "If you have a priority 1 issue please stay on the line. "
     );
-
     $response2 = sprintf("Connecting you, please wait");
 
     $twilioResponse->say($response, $attributes);
-    $twilioResponse->pause("", $pauseLength); //Pause for 5 seconds
+    $twilioResponse->pause("", $pauseLength);
     $twilioResponse->say($response2, $attributes);
     $twilioResponse->dial($user['phone_number'], $dialAttribute);
 
