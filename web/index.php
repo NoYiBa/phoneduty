@@ -66,25 +66,38 @@ if (null !== $userID) {
     );
     //sets the callerID as the Hosting Support Line instead of the client's number
     $dialAttribute = array(
-        'callerId' => +14242066657
+        //'callerId' => +14242066657
     );
 
     $twilioResponse = new Services_Twilio_Twiml();
+    $twilioResponse2 = new Services_Twilio_Twiml();
     $response = sprintf("Welcome to MediaMonks Hosting. "
         . "This number is only for priority 1 issues. "
         . "If you have a priority 1 issue please stay on the line. "
     );
     $response2 = sprintf("Connecting you, please wait");
 
+    $response3 = sprintf("We're sorry, but our on duty technician is currently busy. "
+        . "You may try calling again, or wait until the next available technician calls you back."
+    );
+
     $twilioResponse->say($response, $attributes);
     $twilioResponse->pause("", $pauseLength);
     $twilioResponse->say($response2, $attributes);
     $twilioResponse->dial($user['phone_number'], $dialAttribute);
 
+    $twilioResponse2->say($response3, $attributes);
+    $twilioResponse2->pause("", $pauseLength);
     // send response
     if (!headers_sent()) {
         header('Content-type: text/xml');
     }
 
     echo $twilioResponse;
+
+    if($DialCallStatus!="completed")
+    {
+        echo $twilioResponse2;
+    }
+
 }
