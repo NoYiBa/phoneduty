@@ -70,7 +70,6 @@ if (null !== $userID) {
     );
 
     $twilioResponse = new Services_Twilio_Twiml();
-    $twilioResponse2 = new Services_Twilio_Twiml();
     $response = sprintf("Welcome to MediaMonks Hosting. "
         . "This number is only for priority 1 issues. "
         . "If you have a priority 1 issue please stay on the line. "
@@ -88,9 +87,7 @@ if (null !== $userID) {
     $twilioResponse->say($response2, $attributes);
     $twilioResponse->dial($user['phone_number'], $dialAttribute);
 
-    $twilioResponse2->say($response3, $attributes);
-    $twilioResponse2->pause("", $pauseLength);
-    $twilioResponse2->hangup();
+
 
     // send response
     if (!headers_sent()) {
@@ -101,7 +98,9 @@ if (null !== $userID) {
 
     if($DialCallStatus!="completed")
     {
-        echo $twilioResponse2;
+        $twilioResponse->say($response3, $attributes);
+        $twilioResponse->pause("", $pauseLength);
+        $twilioResponse->hangup();
     }
 
 }
