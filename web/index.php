@@ -77,8 +77,10 @@ if (null !== $userID) {
     );
     $response2 = sprintf("Connecting you, please wait");
 
-    $response3 = sprintf("We're sorry, but our on duty technician is currently busy. "
+    $response3 = sprintf("We're sorry, but our on duty technician is currently busy."
+        . "The next available technician has been alerted to your call."
         . "You may try calling again, or wait until the next available technician calls you back."
+        . "Thank you for calling MediaMonks Hosting"
     );
 
     $twilioResponse->say($response, $attributes);
@@ -88,6 +90,8 @@ if (null !== $userID) {
 
     $twilioResponse2->say($response3, $attributes);
     $twilioResponse2->pause("", $pauseLength);
+    $twilioResponse2->hangup();
+
     // send response
     if (!headers_sent()) {
         header('Content-type: text/xml');
