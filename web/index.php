@@ -66,7 +66,8 @@ if (null !== $userID) {
     );
     //sets the callerID as the Hosting Support Line instead of the client's number
     $dialAttribute = array(
-        //'callerId' => +14242066657
+        'callerId' => 'phone_number',
+        'timeout' => 30
     );
 
     $twilioResponse = new Services_Twilio_Twiml();
@@ -87,8 +88,8 @@ if (null !== $userID) {
     $twilioResponse->say($response2, $attributes);
     $twilioResponse->dial($user['phone_number'], $dialAttribute);
 
-
-
+    $twilioResponse->say($response3, $attributes);
+    $twilioResponse->hangup();
     // send response
     if (!headers_sent()) {
         header('Content-type: text/xml');
@@ -96,11 +97,21 @@ if (null !== $userID) {
 
     echo $twilioResponse;
 
-    if($DialCallStatus!="completed")
+/*    if($DialCallStatus!="completed")
     {
-        $twilioResponse->say($response3, $attributes);
-        $twilioResponse->pause("", $pauseLength);
-        $twilioResponse->hangup();
-    }
+        */?><!--
+        <Response>
+            <Say voice="alice" language="en-GB">
+                "We're sorry, but our on duty technician is currently busy."
+                "The next available technician has been alerted to your call."
+                "You may try calling again, or wait until the next available technician calls you back."
+                "Thank you for calling MediaMonks Hosting"</Say>
+
+            <Pause length="3"/>
+            <Hangup/>
+        </Response>
+
+        --><?php
+/*    }*/
 
 }
