@@ -60,13 +60,18 @@ if (null !== $userID) {
         'voice' => 'alice',
         'language' => 'en-GB'
     );
-    //set length of pause (5 seconds)
+    //set a pause of length 5 seconds
     $pauseLength = array(
         'length' => 5
     );
+
+    //set a pause of length 2 seconds
+    $pauseLength = array(
+        'length' => 2
+    );
     //sets the callerID as the Hosting Support Line instead of the client's number
     $dialAttribute = array(
-        'callerId' => 'phone_number',
+        'callerId' => 'PhoneNumber',
         'timeout' => 30
     );
 
@@ -77,10 +82,10 @@ if (null !== $userID) {
     );
     $response2 = sprintf("Connecting you, please wait");
 
-    $response3 = sprintf("We're sorry, but our on duty technician is currently busy."
-        . "The next available technician has been alerted to your call."
-        . "You may try calling again, or wait until the next available technician calls you back."
-        . "Thank you for calling MediaMonks Hosting"
+    $response3 = sprintf("We're sorry, but our on duty technician is currently busy. "
+        . "The next available technician has been alerted to your call. "
+        . "You may try calling again, or wait until the next available technician calls you back. "
+        . "Thank you for calling MediaMonks Hosting."
     );
 
     $twilioResponse->say($response, $attributes);
@@ -88,6 +93,7 @@ if (null !== $userID) {
     $twilioResponse->say($response2, $attributes);
     $twilioResponse->dial($user['phone_number'], $dialAttribute);
 
+    $twilioResponse->pause("", $pauseLength2);
     $twilioResponse->say($response3, $attributes);
     $twilioResponse->hangup();
     // send response
