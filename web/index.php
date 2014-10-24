@@ -66,7 +66,7 @@ if (null !== $userID) {
     );
     //sets the callerID as the Hosting Support Line instead of the client's number
     $dialAttribute = array(
-        'callerId' => 'phone_number',
+        'callerId' => '+31 85 888 4251',
         'timeout' => 30
     );
 
@@ -97,21 +97,6 @@ if (null !== $userID) {
 
     echo $twilioResponse;
 
-/*    if($DialCallStatus!="completed")
-    {
-        */?><!--
-        <Response>
-            <Say voice="alice" language="en-GB">
-                "We're sorry, but our on duty technician is currently busy."
-                "The next available technician has been alerted to your call."
-                "You may try calling again, or wait until the next available technician calls you back."
-                "Thank you for calling MediaMonks Hosting"</Say>
 
-            <Pause length="3"/>
-            <Hangup/>
-        </Response>
-
-        --><?php
-/*    }*/
 
 }
