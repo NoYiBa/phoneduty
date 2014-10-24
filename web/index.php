@@ -74,7 +74,7 @@ if (null !== $userID) {
     );
 
     $twilioResponse = new Services_Twilio_Twiml();
-    $response = sprintf("Welcome to MediaMonks Hosting. "
+    $response = sprintf("Welcome to MediaMonks Support. "
         . "This number is only for priority 1 issues. "
         . "If you have a priority 1 issue please stay on the line. "
     );
@@ -83,7 +83,7 @@ if (null !== $userID) {
     $response3 = sprintf("We're sorry, but our on duty technician is currently busy. "
         . "The next available technician has been alerted to your call. "
         . "You may try calling again, or wait until the next available technician calls you back. "
-        . "Thank you for calling MediaMonks Hosting."
+        . "Thank you for calling MediaMonks Support."
     );
 
     $twilioResponse->say($response, $attributes);
