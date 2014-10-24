@@ -21,6 +21,8 @@ $scheduleID = getenv('PAGERDUTY_SCHEDULE_ID');
 $APItoken   = getenv('PAGERDUTY_API_TOKEN');
 $domain     = getenv('PAGERDUTY_DOMAIN');
 
+$from = $_REQUEST['From'];
+
 $pagerduty = new \Vend\Phoneduty\Pagerduty($APItoken, $domain);
 
 $userID = $pagerduty->getOncallUserForSchedule($scheduleID);
@@ -71,7 +73,7 @@ if (null !== $userID) {
     );
     //sets the callerID as the Hosting Support Line instead of the client's number
     $dialAttribute = array(
-        'callerId' => 'PhoneNumber',
+        'callerId' => $from,
         'timeout' => 30
     );
 
@@ -93,7 +95,6 @@ if (null !== $userID) {
     $twilioResponse->say($response2, $attributes);
     $twilioResponse->dial($user['phone_number'], $dialAttribute);
 
-    $twilioResponse->pause("", $pauseLength2);
     $twilioResponse->say($response3, $attributes);
     $twilioResponse->hangup();
     // send response
