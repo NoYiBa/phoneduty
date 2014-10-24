@@ -21,7 +21,7 @@ $scheduleID = getenv('PAGERDUTY_SCHEDULE_ID');
 $APItoken   = getenv('PAGERDUTY_API_TOKEN');
 $domain     = getenv('PAGERDUTY_DOMAIN');
 
-$from = $_REQUEST['From'];
+$callFrom = $_REQUEST['To'];
 
 $pagerduty = new \Vend\Phoneduty\Pagerduty($APItoken, $domain);
 
@@ -73,7 +73,7 @@ if (null !== $userID) {
     );
     //sets the callerID as the Hosting Support Line instead of the client's number
     $dialAttribute = array(
-        'callerId' => $from,
+        'callerId' => $callFrom,
         'timeout' => 30
     );
 
