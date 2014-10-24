@@ -66,7 +66,7 @@ if (null !== $userID) {
     );
     //sets the callerID as the Hosting Support Line instead of the client's number
     $dialAttribute = array(
-        'callerId' => '+31 85 888 4251',
+        'callerId' => 'phone_number',
         'timeout' => 30
     );
 
