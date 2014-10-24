@@ -67,14 +67,10 @@ if (null !== $userID) {
         'length' => 5
     );
 
-    //set a pause of length 2 seconds
-    $pauseLength = array(
-        'length' => 2
-    );
     //sets the callerID as the Hosting Support Line instead of the client's number
     $dialAttribute = array(
-        'callerId' => $callFrom,
-        'timeout' => 30
+        'timeout' => 28,
+        'callerId' => $callFrom
     );
 
     $twilioResponse = new Services_Twilio_Twiml();
