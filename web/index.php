@@ -101,7 +101,7 @@ if (null !== $userID) {
         <Pause length="5"/>
         <Say>Connecting you, please wait</Say>
 
-            <Dial action="index.php?number_index=<?php echo $number_index+1 ?>">
+            <Dial>
                 <Number url="screen_for_machine.php">
                     <?php echo $numbers[$number_index] ?>
                 </Number>
@@ -109,6 +109,7 @@ if (null !== $userID) {
         </Response>
 
     <?php
+        $number_index+1;
     }//end of if statement
 
     else
