@@ -101,11 +101,11 @@ if (null !== $userID) {
         <Pause length="5"/>
         <Say>Connecting you, please wait</Say>
 
-        <Dial action="index.php?number_index=<?php echo $number_index+1 ?>">
-            <Number url="screen_for_machine.php">
-                <?php echo $numbers[$number_index] ?>
-            </Number>
-        <Dial/>
+            <Dial action="index.php?number_index=<?php echo $number_index+1 ?>">
+                <Number url="screen_for_machine.php">
+                    <?php echo $numbers[$number_index] ?>
+                </Number>
+            </Dial>
         </Response>
 
     <?php
@@ -119,7 +119,7 @@ if (null !== $userID) {
              Thank you for calling MediaMonks Support.
         </Say>
         <Hangup/>
-    <Response/>
+    </Response>
 
 
 <?php
