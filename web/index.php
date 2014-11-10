@@ -33,6 +33,15 @@ if (null !== $userID) {
     //get incoming caller's number
     $callerNumber = ($_REQUEST['From']);
 
+    //Create array of numbers to use for the call. $callerNumber is the on-duty technician and will not be used as a secondary call
+    $numbers = array($callerNumber, "+31629703976", "+31629710644", "+31611721250");
+
+
+    $number_index = isset($_REQUEST['number_index']) ? $_REQUEST['number_index'] : "0";
+    $DialCallStatus = isset($_REQUEST['DialCallStatus']) ? $_REQUEST['DialCallStatus'] : "";
+
+    header('Content-type: text/xml');
+
     //Creates a PagerDuty incident when callerNumber is set, which is as soon as a call is made
     if (isset($callerNumber)) {
 
@@ -73,33 +82,47 @@ if (null !== $userID) {
         'callerId' => $callFrom
     );
 
-    $twilioResponse = new Services_Twilio_Twiml();
-    $response = sprintf("Welcome to MediaMonks Support. "
-        . "This number is only for priority 1 issues. "
-        . "If you have a priority 1 issue please stay on the line. "
-    );
-    $response2 = sprintf("Connecting you, please wait");
+    if($DialCallStatus!="completed" && $number_index<count($numbers))
+    {
+        if($numbers[$number_index] == $callerNumber)
+        {
+            $number_index+1;
+        }
+        if($numbers[$number_index] >= 4)
+        {
+            $number_index = 0;
+        }
+        ?>
+        <Response>
+        <Say>Welcome to MediaMonks Support.
+            This number is only for priority 1 issues.
+            If you have a priority 1 issue please stay on the line.
+        </Say>
+        <Pause length="5"/>
+        <Say>Connecting you, please wait</Say>
 
-    $response3 = sprintf("We're sorry, but our on duty technician is currently busy. "
-        . "The next available technician has been alerted to your call. "
-        . "You may try calling again, or wait until the next available technician calls you back. "
-        . "Thank you for calling MediaMonks Support."
-    );
+        <Dial action="index.php?number_index=<?php echo $number_index+1 ?>">
+            <Number url="screen_for_machine.php">
+                <?php echo $numbers[$number_index] ?>
+            </Number>
+        <Dial/>
+        </Response>
 
-    $twilioResponse->say($response, $attributes);
-    $twilioResponse->pause("", $pauseLength);
-    $twilioResponse->say($response2, $attributes);
-    $twilioResponse->dial($user['phone_number'], $dialAttribute);
+    <?php
+    }//end of if statement
 
-    $twilioResponse->say($response3, $attributes);
-    $twilioResponse->hangup();
-    // send response
-    if (!headers_sent()) {
-        header('Content-type: text/xml');
-    }
+    else
+    {?>
+    <Response>
+        <Say>We're sorry, but our on duty technicians are currently busy.
+             We are aware of the issue and will be returning your call as soon as possible.
+             Thank you for calling MediaMonks Support.
+        </Say>
+        <Hangup/>
+    <Response/>
 
-    echo $twilioResponse;
 
-
+<?php
+    }//end of else statement
 
 }
