@@ -84,14 +84,14 @@ if (null !== $userID) {
 
     if($DialCallStatus!="completed" && $number_index<count($numbers))
     {
-        if($numbers[$number_index] == $callerNumber)
-        {
-            $number_index+1;
-        }
-        if($numbers[$number_index] >= 4)
-        {
-            $number_index = 0;
-        }
+//        if($numbers[$number_index] == $callerNumber)
+//        {
+//            $number_index+1;
+//        }
+//        if($numbers[$number_index] >= 4)
+//        {
+//            $number_index = 0;
+//        }
         ?>
         <Response>
         <Say>Welcome to MediaMonks Support.
@@ -101,7 +101,7 @@ if (null !== $userID) {
         <Pause length="5"/>
         <Say>Connecting you, please wait</Say>
 
-            <Dial>
+            <Dial action="index.php?number_index=<?php echo $number_index+1 ?>">
                 <Number url="screen_for_machine.php">
                     <?php echo $numbers[$number_index] ?>
                 </Number>
